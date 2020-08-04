@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import GlobalStyles from './GlobalStyles';
+import GlobalStyles from "./GlobalStyles";
 
 function App() {
   return (
     <>
       <GlobalStyles />
-      TODO: write code
+      Daje Roma
     </>
   );
 }

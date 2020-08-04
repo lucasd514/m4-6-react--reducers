@@ -309,24 +309,39 @@ const LightSwitch = () => {
 
 ```jsx
 // Exercise 2
+function reducer(state, action){
+switch(action.type) {
+  case: 'REQUEST DATA' :{
+    return 'loading';
+  }
+  case: 'RECEIVE-DATA' :{
+    return 'idle';
+  }
+  case: 'RECEIVE-Error' :{
+    return 'error';
+  } default:
+  throw new Error('wut dis');
+  case
+}
+}
 function App() {
-  const [status, setStatus] = React.useState("idle");
+  const [state, dispatch] = React.useReducer(reducer, 'idle');
 
   return (
     <form
       onSubmit={() => {
-        setStatus("loading");
+        dispatch({type: "REQUEST-DATA"})
 
         getStatusFromServer()
           .then(() => {
-            setStatus("idle");
+            dispatch({type: "Receive-DATA"});
           })
           .catch(() => {
-            setStatus("error");
+            dispatch({type: "error"});
           });
       }}
     >
-      Status is: {status}
+      Status is: {state}
       <button>Submit</button>
     </form>
   );
