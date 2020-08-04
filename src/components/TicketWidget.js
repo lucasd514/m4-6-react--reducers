@@ -4,6 +4,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { SeatContext } from "./SeatContext";
 import { ReactComponent as Seat } from "../assets/seat-available.svg";
 import { getRowName, getSeatNum } from "../helpers";
+import Tippy from "@tippy.js/react";
+import "tippy.js/dist/tippy.css";
 import { range } from "../utils";
 
 const TicketWidget = () => {
@@ -27,18 +29,33 @@ const TicketWidget = () => {
             <RowLabel>Row {rowName}</RowLabel>
             {range(seatsPerRow).map((seatIndex) => {
               const seatId = `${rowName}-${getSeatNum(seatIndex)}`;
+              const isAvailable = seats[seatId];
+              const toolTipContent = isAvailable
+                ? `Row: ${rowName} Seat: ${getSeatNum(seatIndex)} Price: ${
+                    isAvailable.price
+                  } $`
+                : "Booked";
+              console.log(seatId, isAvailable);
+
               //here
               return (
-                <SeatWrapper key={seatId}>
-                  <Seat
-                    rowIndex={rowIndex}
-                    seatIndex={seatIndex}
-                    width={40}
-                    height={40}
-                    price={seats.price}
-                    status={seats.isBooked ? "unavailable" : "available"}
-                  />
-                </SeatWrapper>
+                <SeatButton key={seatId}>
+                  <Tippy content={toolTipContent}>
+                    <Seat
+                      rowIndex={rowIndex}
+                      seatIndex={seatIndex}
+                      width={40}
+                      height={40}
+                      price={seats.price}
+                      status={seats.isBooked ? "unavailable" : "available"}
+                      style={{
+                        filter: seats.isBooked
+                          ? "grayscale(100%)"
+                          : "sepia(100%)",
+                      }}
+                    />
+                  </Tippy>
+                </SeatButton>
               );
             })}
           </Row>
@@ -68,7 +85,7 @@ const RowLabel = styled.div`
   font-weight: bold;
 `;
 
-const SeatWrapper = styled.div`
+const SeatButton = styled.button`
   padding: 5px;
 `;
 
