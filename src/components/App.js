@@ -1,21 +1,24 @@
 import React from "react";
 import { SeatContext } from "./SeatContext";
 import GlobalStyles from "./GlobalStyles";
+import TicketWidget from "./TicketWidget";
+
 function App() {
   const {
     state: { numOfRows },
-    actions: { recieveSeatInfoFromServer },
+    actions: { receiveSeatInfoFromServer },
   } = React.useContext(SeatContext);
   React.useEffect(() => {
-    fetch("/api/seat-availibility")
+    fetch("/api/seat-availability")
       .then((res) => res.json())
-      .then((data) => recieveSeatInfoFromServer(data));
+      .then((data) => receiveSeatInfoFromServer(data));
   }, []);
-  console.log(SeatContext);
+
   return (
     <>
       <GlobalStyles />
       This venue has this number of rows: {numOfRows}
+      <TicketWidget />
     </>
   );
 }
